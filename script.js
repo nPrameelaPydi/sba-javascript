@@ -97,6 +97,8 @@ function getLearnerData(course, ag, submissions) {
         resultObj = {};
         if (!results.find(result => result.id === learnerId)) {
             resultObj.id = learnerId;
+            resultObj.totalScore = 0;
+            resultObj.totalMaxScore = 0;
             results.push(resultObj);
         }
     }
@@ -115,17 +117,20 @@ function getLearnerData(course, ag, submissions) {
         results.splice(results.indexOf(resultObj), 1);
         resultObj[submissions[i].assignment_id] = finalScorePerAssign;
 
+        //update totalScore & totalMaxScore per assignment
+        resultObj.totalScore += score;
+        resultObj.totalMaxScore += assignInfo.points_possible;
         results.push(resultObj);
     }
+
+    //computing avg
+    for (i = 0; i < results.length; i++) {
+        results[i].avg = results[i].totalScore / results[i].totalMaxScore;
+        delete results[i].totalScore;
+        delete results[i].totalMaxScore;
+    }
+
     return results;
-
-
-
-
-
-
-
-
 
 
 
