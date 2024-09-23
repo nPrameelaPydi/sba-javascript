@@ -76,11 +76,11 @@ const LearnerSubmissions = [
     }
 ];
 
-function getAssignInfo(assign_id) {
-    for (let i = 0; AssignmentGroup.assignments.length; i++) {
+function getAssignInfo(assign_id, ag) {
+    for (let i = 0; ag.assignments.length; i++) {
 
-        if (AssignmentGroup.assignments[i].id == assign_id) {
-            return (AssignmentGroup.assignments[i]);
+        if (ag.assignments[i].id == assign_id) {
+            return (ag.assignments[i]);
         };
 
     }
@@ -89,41 +89,41 @@ function getAssignInfo(assign_id) {
 
 
 
-let results = [];
-console.log(results);
-let resultObj = {};
-
-for (let i = 0; i < LearnerSubmissions.length; i++) {
-    const learnerId = LearnerSubmissions[i].learner_id;
-    resultObj = {};
-    if (!results.find(result => result.id === learnerId)) {
-        resultObj.id = learnerId;
-        results.push(resultObj);
-    }
-}
+//let results = [];
 //console.log(results);
+//let resultObj = {};
 
-let score = 0;
-for (let i = 0; i < LearnerSubmissions.length; i++) {
-    score = LearnerSubmissions[i].submission.score;
-    const assignInfo = getAssignInfo(LearnerSubmissions[i].assignment_id);
-    if (LearnerSubmissions[i].submission.submitted_at > assignInfo.due_at) {
-        score = LearnerSubmissions[i].submission.score * 0.9;
-    }
-    let finalScorePerAssign = score / assignInfo.points_possible;
+//for (let i = 0; i < LearnerSubmissions.length; i++) {
+//    const learnerId = LearnerSubmissions[i].learner_id;
+//    resultObj = {};
+//    if (!results.find(result => result.id === learnerId)) {
+//        resultObj.id = learnerId;
+//        results.push(resultObj);
+//    }
+//}
+////console.log(results);
 
-    resultObj = results.find(result => result.id === LearnerSubmissions[i].learner_id);
-    //find and remove the existing object in results & push new updated resultObj to results
-    results.splice(results.indexOf(resultObj), 1);
-    //console.log(resultObj);
-    resultObj[LearnerSubmissions[i].assignment_id] = finalScorePerAssign;
+//let score = 0;
+//for (let i = 0; i < LearnerSubmissions.length; i++) {
+//    score = LearnerSubmissions[i].submission.score;
+//    const assignInfo = getAssignInfo(LearnerSubmissions[i].assignment_id);
+//    if (LearnerSubmissions[i].submission.submitted_at > assignInfo.due_at) {
+//        score = LearnerSubmissions[i].submission.score * 0.9;
+//    }
+//    let finalScorePerAssign = score / assignInfo.points_possible;
 
-    //if (!results.find(result => result.id === learnerId)) {
-    //resultObj[`${LearnerSubmissions[i].assignment_id}`] = finalScorePerAssign;
-    results.push(resultObj);
-}
+//    resultObj = results.find(result => result.id === LearnerSubmissions[i].learner_id);
+//    //find and remove the existing object in results & push new updated resultObj to results
+//    results.splice(results.indexOf(resultObj), 1);
+//    //console.log(resultObj);
+//    resultObj[LearnerSubmissions[i].assignment_id] = finalScorePerAssign;
 
-console.log(results);
+//    //if (!results.find(result => result.id === learnerId)) {
+//    //resultObj[`${LearnerSubmissions[i].assignment_id}`] = finalScorePerAssign;
+//    results.push(resultObj);
+//}
+
+//console.log(results);
 
 
 
@@ -195,7 +195,43 @@ console.log(results);
 
 
 function getLearnerData(course, ag, submissions) {
-    //Code goes here
+    let results = [];
+    console.log(results);
+    let resultObj = {};
+
+    for (let i = 0; i < submissions.length; i++) {
+        const learnerId = submissions[i].learner_id;
+        resultObj = {};
+        if (!results.find(result => result.id === learnerId)) {
+            resultObj.id = learnerId;
+            results.push(resultObj);
+        }
+    }
+    //console.log(results);
+
+    let score = 0;
+    for (let i = 0; i < submissions.length; i++) {
+        score = submissions[i].submission.score;
+        const assignInfo = getAssignInfo(submissions[i].assignment_id, ag);
+        if (submissions[i].submission.submitted_at > assignInfo.due_at) {
+            score = submissions[i].submission.score * 0.9;
+        }
+        let finalScorePerAssign = score / assignInfo.points_possible;
+
+        resultObj = results.find(result => result.id === submissions[i].learner_id);
+        //find and remove the existing object in results & push new updated resultObj to results
+        results.splice(results.indexOf(resultObj), 1);
+        //console.log(resultObj);
+        resultObj[submissions[i].assignment_id] = finalScorePerAssign;
+
+        //if (!results.find(result => result.id === learnerId)) {
+        //resultObj[`${LearnerSubmissions[i].assignment_id}`] = finalScorePerAssign;
+        results.push(resultObj);
+    }
+
+    //console.log(results);
+    return results;
+
 
 
 
@@ -228,6 +264,6 @@ function getLearnerData(course, ag, submissions) {
     //return result;
 }
 
-//const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
-//console.log(result);
+console.log(result);
