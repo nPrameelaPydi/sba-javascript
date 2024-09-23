@@ -89,6 +89,7 @@ function getAssignInfo(assign_id, ag) {
 
 function getLearnerData(course, ag, submissions) {
     let results = [];
+    let currentDate = new Date();
     console.log(results);
     let resultObj = {};
 
@@ -107,7 +108,13 @@ function getLearnerData(course, ag, submissions) {
     for (let i = 0; i < submissions.length; i++) {
         score = submissions[i].submission.score;
         const assignInfo = getAssignInfo(submissions[i].assignment_id, ag);
-        if (submissions[i].submission.submitted_at > assignInfo.due_at) {
+        //console.log(currentDate);
+        //console.log(new Date(assignInfo.due_at));
+        if (currentDate < new Date(assignInfo.due_at)) {
+            console.log(`continuing`);
+            continue;
+        }
+        if (new Date(submissions[i].submission.submitted_at) > new Date(assignInfo.due_at)) {
             score = submissions[i].submission.score * 0.9;
         }
         let finalScorePerAssign = score / assignInfo.points_possible;
