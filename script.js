@@ -86,10 +86,18 @@ function getAssignInfo(assign_id, ag) {
 //console.log(getAssignInfo(2));
 
 function getLearnerData(course, ag, submissions) {
+    //let course = CourseInfo.id;
     let results = [];
     let currentDate = new Date();
-    console.log(results);
+    //console.log(results);
     let resultObj = {};
+
+    try {
+        if (course.id !== ag.course_id)
+            throw (`Your submissions does not belong to this course`);
+    } catch (err) {
+        console.log(err);
+    }
 
     for (let i = 0; i < submissions.length; i++) {
         const learnerId = submissions[i].learner_id;
@@ -109,7 +117,7 @@ function getLearnerData(course, ag, submissions) {
         //console.log(currentDate);
         //console.log(new Date(assignInfo.due_at));
         if (currentDate < new Date(assignInfo.due_at)) {
-            console.log(`continuing`);
+            //console.log(`continuing`);
             continue;
         }
         if (new Date(submissions[i].submission.submitted_at) > new Date(assignInfo.due_at)) {
