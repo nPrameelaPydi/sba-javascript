@@ -125,9 +125,15 @@ function getLearnerData(course, ag, submissions) {
 
     //computing avg
     for (i = 0; i < results.length; i++) {
-        results[i].avg = results[i].totalScore / results[i].totalMaxScore;
-        delete results[i].totalScore;
-        delete results[i].totalMaxScore;
+        try {
+            results[i].avg = results[i].totalScore / results[i].totalMaxScore;
+            delete results[i].totalScore;
+            delete results[i].totalMaxScore;
+
+        } catch (e) {
+            console.log(`Error while computing avg ${e}`)
+        }
+
     }
 
     return results;
