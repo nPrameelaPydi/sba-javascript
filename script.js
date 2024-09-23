@@ -86,48 +86,91 @@ function getAssignInfo(assign_id) {
     }
 }
 //console.log(getAssignInfo(2));
-let score = 0;
+
+//let resultsObj = {};
+//let results = [];
+
+//for (let i = 0; i < LearnerSubmissions.length; i++) {
+//    if (!results.find(result => result.id === LearnerSubmissions[i].learner_id)) {
+//        result.id = LearnerSubmissions[i].learner_id; // Assign learner_id to resultObj
+//        results.push(resultObj); // Push resultObj into results
+//    }
+//}
+//console.log(results);
+
 let results = [];
 
-for (let i = 0; i < LearnerSubmissions.length; i++) {
-    //console.log(LearnerSubmissions[i].assignment_id);
-    //console.log((getAssignInfo(LearnerSubmissions[i].assignment_id)));
-    let assignInfo = getAssignInfo(LearnerSubmissions[i].assignment_id);
-    score = LearnerSubmissions[i].submission.score;
-
-
-
-    if (LearnerSubmissions[i].submission.submitted_at > assignInfo.due_at) {
-        score = LearnerSubmissions[i].submission.score * 0.9;
-        console.log(`score: ${score}`);
-    }
-
-    //let finalScorePerAssign = score / assignInfo.points_possible;
-    //console.log(finalScorePerAssign);
-    //let temp;
-    /*to find if results already have object with learner-id using results.find()(gives only first find obj or element) - if nothing there it returns undefined, storing undefined or found result in temp,     
-    */
-    temp = results.find((element) => element.id == LearnerSubmissions[i].learner_id);
-    if (temp === undefined) {
-        //results.push(
-        //    {
-        //        id: LearnerSubmissions[i].learner_id,
-        //        LearnerSubmissions[i].assignment_id : finalScorePerAssign,
-
-        //    })
-        temp = {};
-        temp["id"] = LearnerSubmissions[i].learner_id;
-        //temp[LearnerSubmissions[i].assignment_id] = finalScorePerAssign;
-        results.push(temp);
-    } else {
-        temp[LearnerSubmissions[i].assignment_id] = finalScorePerAssign;
-        results.push(temp);
-
-    }
-
-}
 
 console.log(results);
+
+for (let i = 0; i < LearnerSubmissions.length; i++) {
+    const learnerId = LearnerSubmissions[i].learner_id;
+    let resultObj = {};
+    if (!results.find(result => result.id === learnerId)) {
+        resultObj.id = learnerId;
+        results.push(resultObj);
+    }
+}
+console.log(results);
+
+
+
+
+
+
+
+
+
+
+//let score = 0;
+//let results = [];
+
+//for (let i = 0; i < LearnerSubmissions.length; i++) {
+//console.log(LearnerSubmissions[i].assignment_id);
+//console.log((getAssignInfo(LearnerSubmissions[i].assignment_id)));
+//let assignInfo = getAssignInfo(LearnerSubmissions[i].assignment_id);
+
+
+
+
+//score = LearnerSubmissions[i].submission.score;
+
+
+
+//if (LearnerSubmissions[i].submission.submitted_at > assignInfo.due_at) {
+//    score = LearnerSubmissions[i].submission.score * 0.9;
+//    console.log(`score: ${score}`);
+//}
+
+
+
+
+//let finalScorePerAssign = score / assignInfo.points_possible;
+//console.log(finalScorePerAssign);
+//let temp;
+/*to find if results already have object with learner-id using results.find()(gives only first find obj or element) - if nothing there it returns undefined, storing undefined or found result in temp,     
+*/
+//temp = results.find((element) => element.id == LearnerSubmissions[i].learner_id);
+//if (temp === undefined) {
+//results.push(
+//    {
+//        id: LearnerSubmissions[i].learner_id,
+//        LearnerSubmissions[i].assignment_id : finalScorePerAssign,
+
+//    })
+//temp = {};
+//temp["id"] = LearnerSubmissions[i].learner_id;
+//temp[LearnerSubmissions[i].assignment_id] = finalScorePerAssign;
+//results.push(temp);
+//} else {
+//temp[LearnerSubmissions[i].assignment_id] = finalScorePerAssign;
+//results.push(temp);
+
+//}
+
+//}
+
+//console.log(results);
 
 
 
