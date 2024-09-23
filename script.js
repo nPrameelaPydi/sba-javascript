@@ -78,11 +78,9 @@ const LearnerSubmissions = [
 
 function getAssignInfo(assign_id, ag) {
     for (let i = 0; ag.assignments.length; i++) {
-
         if (ag.assignments[i].id == assign_id) {
             return (ag.assignments[i]);
         };
-
     }
 }
 //console.log(getAssignInfo(2));
