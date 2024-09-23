@@ -19,7 +19,7 @@ Open VSCode
 - Link script.js in index.html, make sure to have a script tag in your index.html to link your JavaScript file.
 
 ### :notebook: Pre-Requisites
-List all the pre-requisites the system needs to develop this project.
+Pre-requisites required to develop this project.
 - VSCode
 - Browser debugging console
 
