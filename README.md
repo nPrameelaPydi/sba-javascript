@@ -24,7 +24,8 @@ List all the pre-requisites the system needs to develop this project.
 
 ##  :page_facing_up: Resources
 Mdn web docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
-W3 schools, stack overflow
+- W3 schools 
+- stack overflow
 
 ##  :lock: License
 None.
