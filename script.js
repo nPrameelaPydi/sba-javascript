@@ -87,6 +87,79 @@ function getAssignInfo(assign_id, ag) {
 }
 //console.log(getAssignInfo(2));
 
+function getLearnerData(course, ag, submissions) {
+    let results = [];
+    console.log(results);
+    let resultObj = {};
+
+    for (let i = 0; i < submissions.length; i++) {
+        const learnerId = submissions[i].learner_id;
+        resultObj = {};
+        if (!results.find(result => result.id === learnerId)) {
+            resultObj.id = learnerId;
+            results.push(resultObj);
+        }
+    }
+
+    let score = 0;
+    for (let i = 0; i < submissions.length; i++) {
+        score = submissions[i].submission.score;
+        const assignInfo = getAssignInfo(submissions[i].assignment_id, ag);
+        if (submissions[i].submission.submitted_at > assignInfo.due_at) {
+            score = submissions[i].submission.score * 0.9;
+        }
+        let finalScorePerAssign = score / assignInfo.points_possible;
+
+        resultObj = results.find(result => result.id === submissions[i].learner_id);
+        //find and remove the existing object in results & push new updated resultObj to results
+        results.splice(results.indexOf(resultObj), 1);
+        resultObj[submissions[i].assignment_id] = finalScorePerAssign;
+
+        results.push(resultObj);
+    }
+    return results;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //if (!results.find(result => result.id === learnerId)) {
+    //resultObj[`${LearnerSubmissions[i].assignment_id}`] = finalScorePerAssign;
+
+    // here, we would process this data to achieve the desired result.
+    //const result = [
+    //    {
+    //        id: 125,
+    //        avg: 0.985, // (47 + 150) / (50 + 150)
+    //        1: 0.94, // 47 / 50
+    //        2: 1.0 // 150 / 150
+    //    },
+    //    {
+    //        id: 132,
+    //        avg: 0.82, // (39 + 125) / (50 + 150)
+    //        1: 0.78, // 39 / 50
+    //        2: 0.833 // late: (140 - 15) / 150
+    //    }
+    //];
+
+    //return result;
+}
+
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+
+console.log(result);
+
+
 
 
 //let results = [];
@@ -162,7 +235,7 @@ function getAssignInfo(assign_id, ag) {
 //let finalScorePerAssign = score / assignInfo.points_possible;
 //console.log(finalScorePerAssign);
 //let temp;
-/*to find if results already have object with learner-id using results.find()(gives only first find obj or element) - if nothing there it returns undefined, storing undefined or found result in temp,     
+/*to find if results already have object with learner-id using results.find()(gives only first find obj or element) - if nothing there it returns undefined, storing undefined or found result in temp,
 */
 //temp = results.find((element) => element.id == LearnerSubmissions[i].learner_id);
 //if (temp === undefined) {
@@ -191,79 +264,3 @@ function getAssignInfo(assign_id, ag) {
 //function getResultsPerLearner(leanerId){
 
 //}
-
-
-
-function getLearnerData(course, ag, submissions) {
-    let results = [];
-    console.log(results);
-    let resultObj = {};
-
-    for (let i = 0; i < submissions.length; i++) {
-        const learnerId = submissions[i].learner_id;
-        resultObj = {};
-        if (!results.find(result => result.id === learnerId)) {
-            resultObj.id = learnerId;
-            results.push(resultObj);
-        }
-    }
-    //console.log(results);
-
-    let score = 0;
-    for (let i = 0; i < submissions.length; i++) {
-        score = submissions[i].submission.score;
-        const assignInfo = getAssignInfo(submissions[i].assignment_id, ag);
-        if (submissions[i].submission.submitted_at > assignInfo.due_at) {
-            score = submissions[i].submission.score * 0.9;
-        }
-        let finalScorePerAssign = score / assignInfo.points_possible;
-
-        resultObj = results.find(result => result.id === submissions[i].learner_id);
-        //find and remove the existing object in results & push new updated resultObj to results
-        results.splice(results.indexOf(resultObj), 1);
-        //console.log(resultObj);
-        resultObj[submissions[i].assignment_id] = finalScorePerAssign;
-
-        //if (!results.find(result => result.id === learnerId)) {
-        //resultObj[`${LearnerSubmissions[i].assignment_id}`] = finalScorePerAssign;
-        results.push(resultObj);
-    }
-
-    //console.log(results);
-    return results;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // here, we would process this data to achieve the desired result.
-    //const result = [
-    //    {
-    //        id: 125,
-    //        avg: 0.985, // (47 + 150) / (50 + 150)
-    //        1: 0.94, // 47 / 50
-    //        2: 1.0 // 150 / 150
-    //    },
-    //    {
-    //        id: 132,
-    //        avg: 0.82, // (39 + 125) / (50 + 150)
-    //        1: 0.78, // 39 / 50
-    //        2: 0.833 // late: (140 - 15) / 150
-    //    }
-    //];
-
-    //return result;
-}
-
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-
-console.log(result);
